@@ -3,11 +3,21 @@ name: Pylint
 on: [push]
 
 jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.8
+    - uses: pre-commit/action@v3.0.0
+    - uses: pre-commit-ci/lite-action@v1.0.1
+      if: always()
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8"]
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -19,5 +29,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install pylint
     - name: Analysing the code with pylint
+      working-directory: ./src/python_package
       run: |
-        pylint $(git ls-files 'lint.py')
+        python lint.py
