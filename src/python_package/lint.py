@@ -1,5 +1,7 @@
 #lint.py
 
+from __future__ import annotations
+
 import sys
 
 from pylint import lint
@@ -15,6 +17,5 @@ if score < THRESHOLD:
     print("Linter failed: Score < threshold value")
 
     sys.exit(1)
-
 
 sys.exit(0)
